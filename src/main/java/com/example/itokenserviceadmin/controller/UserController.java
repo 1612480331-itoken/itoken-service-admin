@@ -7,11 +7,12 @@ import com.example.itokenserviceadmin.entity.User;
 import com.example.itokenserviceadmin.service.UserService;
 import com.example.itokenserviceadmin.serviceImpl.UserImpl;
 import com.example.itokenserviceadmin.utils.ResultUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,15 @@ public class UserController {
         return ResultUtil.success(user);
     }
 
+    @PostMapping("/123")
+    @ApiOperation(value="测试swagger", notes="根据url的id来指定更新用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "s1", value = "用户ID", required = true, dataType = "String",paramType = "path"),
+            @ApiImplicitParam(name = "s2", value = "用户实体user", required = true, dataType = "int")
+    })
+    public Result postMethod(String s1,@RequestParam(required = true) int s2){
+        return ResultUtil.success();
+    }
     @RequestMapping("/err")
     public Result err(){
         return ResultUtil.error(ResultEnum.UNKNOW_ERROR);
@@ -44,7 +54,7 @@ public class UserController {
         map.put("user", userService.selectAll("1"));
         return map;
     }
-    
+
 
     @RequestMapping("/login")
     public User login() {
